@@ -12,9 +12,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
@@ -25,6 +29,7 @@ public class Hub extends ActionBarActivity {
     MediaPlayer mp;
 
     HashMap<Button, Integer> inputColorMap = new HashMap<>();
+    HashMap<Button, Double> inputThresholds = new HashMap<>();
     HashMap<Button, Set<Button>> inputOutputMap = new HashMap<>();
     HashMap<Button, Uri> outputMap = new HashMap<>();
 
@@ -95,6 +100,29 @@ public class Hub extends ActionBarActivity {
 
                         inputs.addView(b);
                         inputOutputMap.put(b, new HashSet<Button>());
+
+
+                        AlertDialog.Builder alertDialog = new AlertDialog.Builder(getApplicationContext());
+                        alertDialog.setTitle(items[i]);
+                        alertDialog.setMessage("Trigger threshold:");
+
+                        final EditText input = new EditText(getApplicationContext());
+                        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                                LinearLayout.LayoutParams.MATCH_PARENT,
+                                LinearLayout.LayoutParams.MATCH_PARENT);
+                        input.setLayoutParams(lp);
+                        alertDialog.setView(input);
+
+                        alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                inputThresholds.put(b, Double.parseDouble(input.getText().toString()));
+                            }
+                        });
+
+                        AlertDialog alert12 = alertDialog.create();
+                        alert12.show();
+
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -131,6 +159,17 @@ public class Hub extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+
+    List<Button> getInputs(String type){
+        ArrayList<Button> buttons = new ArrayList<>();
+        for (Button b : inputThresholds.keySet()){
+            if(b.getText().toString().equals(type)){
+                buttons.add(b);
+            }
+        }
+        return buttons;
     }
 
 

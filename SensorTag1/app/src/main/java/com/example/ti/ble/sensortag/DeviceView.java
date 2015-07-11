@@ -55,8 +55,10 @@
 package com.example.ti.ble.sensortag;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
@@ -74,6 +76,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
@@ -101,14 +104,14 @@ public class DeviceView extends Fragment {
 
 	// GUI
 	//private TableLayout table;
-	//private TextView mAccValue;
-	//private TextView mMagValue;
-	//private TextView mLuxValue;
-	//private TextView mGyrValue;
-	//private TextView mObjValue;
-	//private TextView mAmbValue;
-	//private TextView mHumValue;
-	//private TextView mBarValue;
+	private String mAccValue;
+	private String mMagValue;
+	private String mLuxValue;
+	private String mGyrValue;
+	private String mObjValue;
+	private String mAmbValue;
+	private String mHumValue;
+	private String mBarValue;
 	//private ImageView mButton;
 	//private ImageView mRelay;
 	//private TableRow mMagPanel;
@@ -124,7 +127,8 @@ public class DeviceView extends Fragment {
 	HashMap<Button, Integer> inputColorMap = new HashMap<>();
 	HashMap<Button, Set<Button>> inputOutputMap = new HashMap<>();
 	HashMap<Button, Uri> outputMap = new HashMap<>();
-	Button testBtn;
+    HashMap<Button, Double> inputThresholds = new HashMap<>();
+    Button testBtn;
 	Button selectedInput = null;
 	LinearLayout inputs, outputs;
 
@@ -204,6 +208,22 @@ public class DeviceView extends Fragment {
 		super.onPause();
 	}
 
+    List<Button> getInputs(String type){
+        ArrayList<Button> buttons = new ArrayList<>();
+        for (Button b : inputThresholds.keySet()){
+            if(b.getText().toString().equals(type)){
+                buttons.add(b);
+            }
+        }
+        return buttons;
+    }
+
+    void trigger(Button input){
+        for (Button output : inputOutputMap.get(input)){
+            executeOutputAction(output);
+        }
+    }
+
 	/**
 	 * Handle changes in sensor values
 	 * */
@@ -215,41 +235,75 @@ public class DeviceView extends Fragment {
 			v = Sensor.ACCELEROMETER.convert(rawValue);
 			msg = decimal.format(v.x) + "\n" + decimal.format(v.y) + "\n"
 			    + decimal.format(v.z) + "\n";
-			//mAccValue.setText(msg);
+			mAccValue = msg;
+
+            for (Button input : getInputs("Accelerometer")){
+                if (inputThresholds.get(input) < Math.sqrt(v.x*v.x+v.y*v.y+v.z*v.z)){
+                    trigger(input);
+                }
+            }
 		}
 
 		if (uuidStr.equals(SensorTagGatt.UUID_MAG_DATA.toString())) {
 			v = Sensor.MAGNETOMETER.convert(rawValue);
 			msg = decimal.format(v.x) + "\n" + decimal.format(v.y) + "\n"
 			    + decimal.format(v.z) + "\n";
-			//mMagValue.setText(msg);
+			mMagValue = msg;
+            for (Button input : getInputs("Magnetometer")){
+                if (inputThresholds.get(input) < Math.sqrt(v.x*v.x+v.y*v.y+v.z*v.z)){
+                    trigger(input);
+                }
+            }
 		}
 
 		if (uuidStr.equals(SensorTagGatt.UUID_OPT_DATA.toString())) {
 			v = Sensor.LUXOMETER.convert(rawValue);
 			msg = decimal.format(v.x) + "\n";
-			//mLuxValue.setText(msg);
+			mLuxValue = msg;
+
+            for (Button input : getInputs("Ambient Light")){
+                if (inputThresholds.get(input) < v.x){
+                    trigger(input);
+                }
+            }
 		}
 
 		if (uuidStr.equals(SensorTagGatt.UUID_GYR_DATA.toString())) {
 			v = Sensor.GYROSCOPE.convert(rawValue);
 			msg = decimal.format(v.x) + "\n" + decimal.format(v.y) + "\n"
 			    + decimal.format(v.z) + "\n";
-			//mGyrValue.setText(msg);
+			mGyrValue = msg;
+
+            for (Button input : getInputs("Gyroscope")){
+                if (inputThresholds.get(input) < Math.sqrt(v.x*v.x+v.y*v.y+v.z*v.z)){
+                    trigger(input);
+                }
+            }
 		}
 
 		if (uuidStr.equals(SensorTagGatt.UUID_IRT_DATA.toString())) {
 			v = Sensor.IR_TEMPERATURE.convert(rawValue);
 			msg = decimal.format(v.x) + "\n";
-			//mAmbValue.setText(msg);
+			mAmbValue = msg;
 			msg = decimal.format(v.y) + "\n";
-			//mObjValue.setText(msg);
+			mObjValue = msg;
+
+            for (Button input : getInputs("Temperature")){
+                if (inputThresholds.get(input) < v.x){
+                    trigger(input);
+                }
+            }
 		}
 
 		if (uuidStr.equals(SensorTagGatt.UUID_HUM_DATA.toString())) {
 			v = Sensor.HUMIDITY.convert(rawValue);
 			msg = decimal.format(v.x) + "\n";
-			//mHumValue.setText(msg);
+			mHumValue= msg;
+            for (Button input : getInputs("Humidity")){
+                if (inputThresholds.get(input) < v.x){
+                    trigger(input);
+                }
+            }
 		}
 
 		if (uuidStr.equals(SensorTagGatt.UUID_BAR_DATA.toString())) {
@@ -259,7 +313,13 @@ public class DeviceView extends Fragment {
 			    / PA_PER_METER;
 			h = (double) Math.round(-h * 10.0) / 10.0;
 			msg = decimal.format(v.x / 100.0f) + "\n" + h;
-			//mBarValue.setText(msg);
+			mBarValue=msg;
+
+            for (Button input : getInputs("Barometer")){
+                if (inputThresholds.get(input) < h){
+                    trigger(input);
+                }
+            }
 		}
 
 		if (uuidStr.equals(SensorTagGatt.UUID_KEY_DATA.toString())) {
@@ -335,13 +395,13 @@ public class DeviceView extends Fragment {
 
 	public boolean newInput(){
         final CharSequence[] items = {"Accelerometer", "Temperature", "Ambient Light", "Humidity", "Barometer", "Gyroscope", "Compass", "Magnetometer"};
-        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(getActivity());
 
         builder1.setItems(items, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 try {
-                    final Button b = new Button(getApplicationContext());
+                    final Button b = new Button(getActivity());
                     b.setMaxEms(10);
                     b.setText(items[i]);
                     Random rnd = new Random();
@@ -371,6 +431,29 @@ public class DeviceView extends Fragment {
 
                     inputs.addView(b);
                     inputOutputMap.put(b, new HashSet<Button>());
+
+
+                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(getApplicationContext());
+                    alertDialog.setTitle(items[i]);
+                    alertDialog.setMessage("Trigger threshold:");
+
+                    final EditText input = new EditText(getApplicationContext());
+                    LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.MATCH_PARENT,
+                            LinearLayout.LayoutParams.MATCH_PARENT);
+                    input.setLayoutParams(lp);
+                    alertDialog.setView(input);
+
+                    alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            inputThresholds.put(b, Double.parseDouble(input.getText().toString()));
+                        }
+                    });
+
+                    AlertDialog alert12 = alertDialog.create();
+                    alert12.show();
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
