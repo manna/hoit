@@ -14,7 +14,7 @@
   this software subject to the terms herein.  With respect to the foregoing patent
   license, such license is granted  solely to the extent that any such patent is necessary
   to Utilize the software alone.  The patent license shall not apply to any combinations which
-  include this software, other than combinations with devices manufactured by or for TI (ÒTI DevicesÓ). 
+  include this software, other than combinations with devices manufactured by or for TI (ï¿½TI Devicesï¿½). 
   No hardware patent is licensed hereunder.
 
   Redistributions must preserve existing copyright notices and reproduce this license (including the
@@ -42,9 +42,9 @@
 
   DISCLAIMER.
 
-  THIS SOFTWARE IS PROVIDED BY TI AND TIÕS LICENSORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING,
+  THIS SOFTWARE IS PROVIDED BY TI AND TIï¿½S LICENSORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING,
   BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
-  IN NO EVENT SHALL TI AND TIÕS LICENSORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+  IN NO EVENT SHALL TI AND TIï¿½S LICENSORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
   CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA,
   OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
   OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
@@ -59,12 +59,14 @@ import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
 
+import android.app.AlertDialog;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattService;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -200,8 +202,25 @@ public class DeviceActivity extends ViewPagerActivity {
 			mDeviceView.newInput();
 			break;
 		case R.id.new_output:
-			Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI);
-			startActivityForResult(i, MUSIC_PICKER_CODE);
+            final CharSequence[] items = {"Speakers"};
+
+            AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+
+            builder1.setItems(items, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    switch (items[i].toString()){
+                        case "Speakers":
+                            Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI);
+                            startActivityForResult(intent,MUSIC_PICKER_CODE);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            });
+            AlertDialog alert11 = builder1.create();
+            alert11.show();
 			break;
 		default:
 			return super.onOptionsItemSelected(item);

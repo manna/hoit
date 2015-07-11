@@ -6,4 +6,4 @@
     <ProgressBar android:layout_width="32dp"
        android:layout_height="32dp"
        android:layout_gravity="center"/>
-</FrameLayout><!-- From: file:/C:/Users/Simon/Downloads/Classes/Code/_Hackathon_/IFTTT/hoit/SensorTag1/app/src/main/res/layout/frame_progress.xml -->
+</FrameLayout><!-- From: file:/Users/amin/Dropbox%20(MIT)/workspace/hoit/SensorTag1/app/src/main/res/layout/frame_progress.xml -->

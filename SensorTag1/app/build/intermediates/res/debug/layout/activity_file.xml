@@ -28,4 +28,4 @@
         android:onClick="onConfirm"
         android:text="@string/btn_txt_confirm" />
 
-</LinearLayout><!-- From: file:/C:/Users/Simon/Downloads/Classes/Code/_Hackathon_/IFTTT/hoit/SensorTag1/app/src/main/res/layout/activity_file.xml -->
+</LinearLayout><!-- From: file:/Users/amin/Dropbox%20(MIT)/workspace/hoit/SensorTag1/app/src/main/res/layout/activity_file.xml -->

@@ -14,7 +14,7 @@
   this software subject to the terms herein.  With respect to the foregoing patent
   license, such license is granted  solely to the extent that any such patent is necessary
   to Utilize the software alone.  The patent license shall not apply to any combinations which
-  include this software, other than combinations with devices manufactured by or for TI (ÒTI DevicesÓ). 
+  include this software, other than combinations with devices manufactured by or for TI (ï¿½TI Devicesï¿½). 
   No hardware patent is licensed hereunder.
 
   Redistributions must preserve existing copyright notices and reproduce this license (including the
@@ -42,9 +42,9 @@
 
   DISCLAIMER.
 
-  THIS SOFTWARE IS PROVIDED BY TI AND TIÕS LICENSORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING,
+  THIS SOFTWARE IS PROVIDED BY TI AND TIï¿½S LICENSORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING,
   BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
-  IN NO EVENT SHALL TI AND TIÕS LICENSORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+  IN NO EVENT SHALL TI AND TIï¿½S LICENSORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
   CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA,
   OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
   OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
@@ -60,6 +60,8 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.media.MediaPlayer;
@@ -332,42 +334,53 @@ public class DeviceView extends Fragment {
 	}
 
 	public boolean newInput(){
-		try {
-			final Button b = new Button(getActivity().getApplicationContext());
-			b.setMaxEms(10);
-			b.setText("Sensor");
-			Random rnd = new Random();
-			int color = Color.argb(255, rnd.nextInt(16) * 16, rnd.nextInt(16) * 16, rnd.nextInt(16) * 16);
-			while (inputColorMap.containsValue(color)){
-				color = Color.argb(255, rnd.nextInt(16)*16, rnd.nextInt(16)*16, rnd.nextInt(16)*16);
-			}
-			b.setBackgroundColor(color);
-			inputColorMap.put(b, color);
+        final CharSequence[] items = {"Accelerometer", "Temperature", "Ambient Light", "Humidity", "Barometer", "Gyroscope", "Compass", "Magnetometer"};
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
 
-			b.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View view) {
-					if (selectedInput == b){
-						b.setEnabled(true);
-						selectedInput = null;
-					}
-					else {
-						b.setEnabled(false);
-						if (selectedInput != null) {
-							selectedInput.setEnabled(true);
-						}
-						selectedInput = b;
-					}
-				}
-			});
+        builder1.setItems(items, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                try {
+                    final Button b = new Button(getApplicationContext());
+                    b.setMaxEms(10);
+                    b.setText(items[i]);
+                    Random rnd = new Random();
+                    int color = Color.argb(255, rnd.nextInt(16)*16, rnd.nextInt(16)*16, rnd.nextInt(16)*16);
+                    while (inputColorMap.containsValue(color)){
+                        color = Color.argb(255, rnd.nextInt(16)*16, rnd.nextInt(16)*16, rnd.nextInt(16)*16);
+                    }
+                    b.setBackgroundColor(color);
+                    inputColorMap.put(b, color);
 
-			inputs.addView(b);
-			inputOutputMap.put(b, new HashSet<Button>());
-			return true;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		}
+                    b.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            if (selectedInput == b){
+                                b.setEnabled(true);
+                                selectedInput = null;
+                            }
+                            else {
+                                b.setEnabled(false);
+                                if (selectedInput != null) {
+                                    selectedInput.setEnabled(true);
+                                }
+                                selectedInput = b;
+                            }
+                        }
+                    });
+
+                    inputs.addView(b);
+                    inputOutputMap.put(b, new HashSet<Button>());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        AlertDialog alert11 = builder1.create();
+        alert11.show();
+
+        return true;
 	}
 
 	public void pickMusic(Intent data){

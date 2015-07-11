@@ -3,4 +3,4 @@
     android:id="@+id/pager"
     android:layout_width="match_parent"
     android:layout_height="match_parent" />
-<!-- From: file:/C:/Users/Simon/Downloads/Classes/Code/_Hackathon_/IFTTT/hoit/SensorTag1/app/src/main/res/layout/fragment_pager.xml -->
+<!-- From: file:/Users/amin/Dropbox%20(MIT)/workspace/hoit/SensorTag1/app/src/main/res/layout/fragment_pager.xml -->

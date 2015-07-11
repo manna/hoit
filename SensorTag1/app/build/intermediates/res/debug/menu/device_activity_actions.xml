@@ -32,4 +32,4 @@
         android:id="@+id/opt_about"
         android:icon="@drawable/ic_action_about"
         android:title="@string/about"/>
-</menu><!-- From: file:/C:/Users/Simon/Downloads/Classes/Code/_Hackathon_/IFTTT/hoit/SensorTag1/app/src/main/res/menu/device_activity_actions.xml -->
+</menu><!-- From: file:/Users/amin/Dropbox%20(MIT)/workspace/hoit/SensorTag1/app/src/main/res/menu/device_activity_actions.xml -->

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- From: file:/C:/Users/Simon/Downloads/Classes/Code/_Hackathon_/IFTTT/hoit/SensorTag1/app/src/main/res/values/strings.xml -->
+    <!-- From: file:/Users/amin/Dropbox%20(MIT)/workspace/hoit/SensorTag1/app/src/main/res/values/strings.xml -->
     <eat-comment/>
     <string-array name="device_filter"><item>SensorTag</item><item>SensorTag2</item></string-array>
-    <!-- From: file:/C:/Users/Simon/Downloads/Classes/Code/_Hackathon_/IFTTT/hoit/SensorTag1/app/src/main/res/values/dimens.xml -->
+    <!-- From: file:/Users/amin/Dropbox%20(MIT)/workspace/hoit/SensorTag1/app/src/main/res/values/dimens.xml -->
     <eat-comment/>
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
-    <!-- From: file:/C:/Users/Simon/Downloads/Classes/Code/_Hackathon_/IFTTT/hoit/SensorTag1/app/src/main/res/values/strings.xml -->
+    <!-- From: file:/Users/amin/Dropbox%20(MIT)/workspace/hoit/SensorTag1/app/src/main/res/values/strings.xml -->
     <eat-comment/>
     <string name="about">About</string>
     <string name="acc">Accelerometer</string>
@@ -70,7 +70,7 @@
     <string name="unitRH">%rH\n</string>
     <string name="unitT3">uT\nuT\nuT\n</string>
     <string name="xyz3">x:\ny:\nz:\n</string>
-    <!-- From: file:/C:/Users/Simon/Downloads/Classes/Code/_Hackathon_/IFTTT/hoit/SensorTag1/app/src/main/res/values/styles.xml -->
+    <!-- From: file:/Users/amin/Dropbox%20(MIT)/workspace/hoit/SensorTag1/app/src/main/res/values/styles.xml -->
     <eat-comment/>
     <style name="AppBaseTheme" parent="android:Theme.Light">
         <!--
