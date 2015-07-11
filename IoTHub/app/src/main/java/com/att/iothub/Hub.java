@@ -1,5 +1,7 @@
 package com.att.iothub;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.media.MediaPlayer;
@@ -11,7 +13,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
-
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Random;
@@ -39,6 +40,7 @@ public class Hub extends ActionBarActivity {
         inputs = (LinearLayout)findViewById(R.id.inputs);
         outputs = (LinearLayout)findViewById(R.id.outputs);
 
+        findViewById(R.id.button).setVisibility(View.GONE);
     }
 
 
@@ -55,49 +57,77 @@ public class Hub extends ActionBarActivity {
         int id = item.getItemId();
 
         if (id == R.id.new_input) {
-            try {
-                final Button b = new Button(getApplicationContext());
-                b.setMaxEms(10);
-                b.setText("Sensor");
-                Random rnd = new Random();
-                int color = Color.argb(255, rnd.nextInt(16)*16, rnd.nextInt(16)*16, rnd.nextInt(16)*16);
-                while (inputColorMap.containsValue(color)){
-                    color = Color.argb(255, rnd.nextInt(16)*16, rnd.nextInt(16)*16, rnd.nextInt(16)*16);
-                }
-                b.setBackgroundColor(color);
-                inputColorMap.put(b, color);
 
-                b.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        if (selectedInput == b){
-                            b.setEnabled(true);
-                            selectedInput = null;
+            final CharSequence[] items = {"Accelerometer", "Temperature", "Ambient Light", "Humidity", "Barometer", "Gyroscope", "Compass", "Magnetometer"};
+            AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+
+            builder1.setItems(items, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    try {
+                        final Button b = new Button(getApplicationContext());
+                        b.setMaxEms(10);
+                        b.setText(items[i]);
+                        Random rnd = new Random();
+                        int color = Color.argb(255, rnd.nextInt(16)*16, rnd.nextInt(16)*16, rnd.nextInt(16)*16);
+                        while (inputColorMap.containsValue(color)){
+                            color = Color.argb(255, rnd.nextInt(16)*16, rnd.nextInt(16)*16, rnd.nextInt(16)*16);
                         }
-                        else {
-                            b.setEnabled(false);
-                            if (selectedInput != null) {
-                                selectedInput.setEnabled(true);
+                        b.setBackgroundColor(color);
+                        inputColorMap.put(b, color);
+
+                        b.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                            if (selectedInput == b){
+                                b.setEnabled(true);
+                                selectedInput = null;
                             }
-                            selectedInput = b;
-                        }
-                    }
-                });
+                            else {
+                                b.setEnabled(false);
+                                if (selectedInput != null) {
+                                    selectedInput.setEnabled(true);
+                                }
+                                selectedInput = b;
+                            }
+                            }
+                        });
 
-                inputs.addView(b);
-                inputOutputMap.put(b, new HashSet<Button>());
-                return true;
-            } catch (Exception e) {
-                e.printStackTrace();
-                return false;
-            }
+                        inputs.addView(b);
+                        inputOutputMap.put(b, new HashSet<Button>());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+
+            AlertDialog alert11 = builder1.create();
+            alert11.show();
+
+            return true;
         }
 
         if (id == R.id.new_output){
-            Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI);
-            startActivityForResult(i,MUSIC_PICKER_CODE);
-            return true;
+            final CharSequence[] items = {"Speakers"};
 
+            AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+
+            builder1.setItems(items, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    switch (items[i].toString()){
+                        case "Speakers":
+                            Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI);
+                            startActivityForResult(intent,MUSIC_PICKER_CODE);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            });
+            AlertDialog alert11 = builder1.create();
+            alert11.show();
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
