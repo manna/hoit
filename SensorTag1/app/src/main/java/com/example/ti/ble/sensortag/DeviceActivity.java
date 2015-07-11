@@ -284,10 +284,12 @@ public class DeviceActivity extends ViewPagerActivity {
 		mEnabledSensors.clear();
 
 		for (int i = 0; i < Sensor.SENSOR_LIST.length; i++) {
+			System.out.println("test123 length " + Sensor.SENSOR_LIST.length);
 			Sensor sensor = Sensor.SENSOR_LIST[i];
-			if (isEnabledByPrefs(sensor)) {
-				mEnabledSensors.add(sensor);
-			}
+			//if (isEnabledByPrefs(sensor)) {
+			System.out.println("test123 added " + Sensor.SENSOR_LIST[i]);
+			mEnabledSensors.add(sensor);
+			//}
 		}
 	}
 

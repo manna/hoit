@@ -18,15 +18,15 @@
   in the documentation and/or other materials provided with the distribution
   Redistribution and use in binary form, without modification, are permitted provided that the following
   conditions are met:
-    * No reverse engineering, decompilation, or disassembly of this software is permitted with respect to any
+ * No reverse engineering, decompilation, or disassembly of this software is permitted with respect to any
       software provided in binary form.
-    * any redistribution and use are licensed by TI for use only with TI Devices.
-    * Nothing shall obligate TI to provide you with source code for the software licensed and provided to you in object code.
+ * any redistribution and use are licensed by TI for use only with TI Devices.
+ * Nothing shall obligate TI to provide you with source code for the software licensed and provided to you in object code.
   If software source code is provided to you, modification and redistribution of the source code are permitted
   provided that the following conditions are met:
-    * any redistribution and use of the source code, including any resulting derivative works, are licensed by
+ * any redistribution and use of the source code, including any resulting derivative works, are licensed by
       TI for use only with TI Devices.
-    * any redistribution and use of any object code compiled from the source code and any resulting derivative
+ * any redistribution and use of any object code compiled from the source code and any resulting derivative
       works, are licensed by TI for use only with TI Devices.
   Neither the name of Texas Instruments Incorporated nor the names of its suppliers may be used to endorse or
   promote products derived from this software without specific prior written permission.
@@ -90,7 +90,7 @@ public class DeviceView extends Fragment {
 	public static DeviceView mInstance = null;
 
 	// GUI
-	//private TableLayout table;
+	// private TableLayout table;
 	private String mAccValue;
 	private String mMagValue;
 	private String mLuxValue;
@@ -99,10 +99,10 @@ public class DeviceView extends Fragment {
 	private String mAmbValue;
 	private String mHumValue;
 	private String mBarValue;
-	//private ImageView mButton;
-	//private ImageView mRelay;
-	//private TableRow mMagPanel;
-	//private TableRow mBarPanel;
+	// private ImageView mButton;
+	// private ImageView mRelay;
+	// private TableRow mMagPanel;
+	// private TableRow mBarPanel;
 
 	// House-keeping
 	private DecimalFormat decimal = new DecimalFormat("+0.00;-0.00");
@@ -114,8 +114,8 @@ public class DeviceView extends Fragment {
 	HashMap<Button, Integer> inputColorMap = new HashMap<>();
 	HashMap<Button, Set<Button>> inputOutputMap = new HashMap<>();
 	HashMap<Button, Uri> outputMap = new HashMap<>();
-    HashMap<Button, Double> inputThresholds = new HashMap<>();
-    Button testBtn;
+	HashMap<Button, Double> inputThresholds = new HashMap<>();
+	Button testBtn;
 	Button selectedInput = null;
 	LinearLayout inputs, outputs;
 
@@ -123,7 +123,7 @@ public class DeviceView extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-	    Bundle savedInstanceState) {
+			Bundle savedInstanceState) {
 		mInstance = this;
 		mActivity = (DeviceActivity) getActivity();
 		mIsSensorTag2 = mActivity.isSensorTag2();
@@ -132,50 +132,46 @@ public class DeviceView extends Fragment {
 		View view;
 
 		if (mIsSensorTag2) {
-			view = inflater.inflate(R.layout.services_browser2, container, false);
-			//table = (TableLayout) view.findViewById(R.id.services_browser_layout2);
-			//mLuxValue = (TextView) view.findViewById(R.id.luxometerTxt);
-			//mMagPanel = null;
-			//mRelay = (ImageView) view.findViewById(R.id.relay);
+			view = inflater.inflate(R.layout.services_browser2, container,
+					false);
+			// table = (TableLayout)
+			// view.findViewById(R.id.services_browser_layout2);
+			// mLuxValue = (TextView) view.findViewById(R.id.luxometerTxt);
+			// mMagPanel = null;
+			// mRelay = (ImageView) view.findViewById(R.id.relay);
 		} else {
-			view = inflater.inflate(R.layout.services_browser, container, false);
-			//table = (TableLayout) view.findViewById(R.id.services_browser_layout);
-			//mMagValue = (TextView) view.findViewById(R.id.magnetometerTxt);
-			//mMagPanel = (TableRow) view.findViewById(R.id.magPanel);
-			//mRelay = null;
+			view = inflater
+					.inflate(R.layout.services_browser, container, false);
+			// table = (TableLayout)
+			// view.findViewById(R.id.services_browser_layout);
+			// mMagValue = (TextView) view.findViewById(R.id.magnetometerTxt);
+			// mMagPanel = (TableRow) view.findViewById(R.id.magPanel);
+			// mRelay = null;
 		}
 
-		inputs = (LinearLayout)view.findViewById(R.id.inputs);
-		outputs = (LinearLayout)view.findViewById(R.id.outputs);
+		inputs = (LinearLayout) view.findViewById(R.id.inputs);
+		outputs = (LinearLayout) view.findViewById(R.id.outputs);
 		testBtn = (Button) view.findViewById(R.id.button);
 
 		// UI widgets
-		//mAccValue = (TextView) view.findViewById(R.id.accelerometerTxt);
-		//mGyrValue = (TextView) view.findViewById(R.id.gyroscopeTxt);
-		//mObjValue = (TextView) view.findViewById(R.id.objTemperatureText);
-		//mAmbValue = (TextView) view.findViewById(R.id.ambientTemperatureTxt);
-		//mHumValue = (TextView) view.findViewById(R.id.humidityTxt);
-		//mBarValue = (TextView) view.findViewById(R.id.barometerTxt);
-		//mButton = (ImageView) view.findViewById(R.id.buttons);
+		// mAccValue = (TextView) view.findViewById(R.id.accelerometerTxt);
+		// mGyrValue = (TextView) view.findViewById(R.id.gyroscopeTxt);
+		// mObjValue = (TextView) view.findViewById(R.id.objTemperatureText);
+		// mAmbValue = (TextView) view.findViewById(R.id.ambientTemperatureTxt);
+		// mHumValue = (TextView) view.findViewById(R.id.humidityTxt);
+		// mBarValue = (TextView) view.findViewById(R.id.barometerTxt);
+		// mButton = (ImageView) view.findViewById(R.id.buttons);
 
 		// Support for calibration
-		/*mBarPanel = (TableRow) view.findViewById(R.id.barPanel);
-		OnClickListener cl = new OnClickListener() {
-			public void onClick(View v) {
-				switch (v.getId()) {
-				case R.id.magPanel:
-					mActivity.calibrateMagnetometer();
-					break;
-				case R.id.barPanel:
-					mActivity.calibrateHeight();
-					break;
-				default:
-				}
-			}
-		};
-		if (mMagPanel != null)
-			mMagPanel.setOnClickListener(cl);
-		mBarPanel.setOnClickListener(cl);*/
+		/*
+		 * mBarPanel = (TableRow) view.findViewById(R.id.barPanel);
+		 * OnClickListener cl = new OnClickListener() { public void onClick(View
+		 * v) { switch (v.getId()) { case R.id.magPanel:
+		 * mActivity.calibrateMagnetometer(); break; case R.id.barPanel:
+		 * mActivity.calibrateHeight(); break; default: } } }; if (mMagPanel !=
+		 * null) mMagPanel.setOnClickListener(cl);
+		 * mBarPanel.setOnClickListener(cl);
+		 */
 		// Notify activity that UI has been inflated
 		mActivity.onViewInflated(view);
 
@@ -193,39 +189,40 @@ public class DeviceView extends Fragment {
 		super.onPause();
 	}
 
-    List<Button> getInputs(String type){
-        ArrayList<Button> buttons = new ArrayList<>();
-        for (Button b : inputThresholds.keySet()){
-            if(b.getText().toString().equals(type)){
-                buttons.add(b);
-            }
-        }
-        return buttons;
-    }
+	List<Button> getInputs(String type) {
+		ArrayList<Button> buttons = new ArrayList<>();
+		for (Button b : inputThresholds.keySet()) {
+			if (b.getText().toString().startsWith(type)) {
+				buttons.add(b);
+			}
+		}
+		return buttons;
+	}
 
-    List<Button> triggered = new ArrayList<Button>();
+	List<Button> triggered = new ArrayList<Button>();
 
-    void trigger(Button input){
-    	System.out.println("test123 trigger " + input.getText().toString() );
-        if (triggered.contains(input)) return;
-        for (Button b : inputOutputMap.get(input)){
-            final Button output = b;
-            executeOutputAction(output);
-            triggered.add(output);
-            Thread t = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        wait(10000);
-                        triggered.remove(output);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
-            t.start();
-        }
-    }
+	void trigger(Button input) {
+		System.out.println("test123 trigger " + input.getText().toString());
+		if (triggered.contains(input))
+			return;
+		for (Button b : inputOutputMap.get(input)) {
+			final Button output = b;
+			executeOutputAction(output);
+			triggered.add(output);
+			Thread t = new Thread(new Runnable() {
+				@Override
+				public void run() {
+					try {
+						wait(10000);
+						triggered.remove(output);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+			});
+			t.start();
+		}
+	}
 
 	/**
 	 * Handle changes in sensor values
@@ -233,34 +230,37 @@ public class DeviceView extends Fragment {
 	public void onCharacteristicChanged(String uuidStr, byte[] rawValue) {
 		Point3D v;
 		String msg;
-		
-		
+
 		if (uuidStr.equals(SensorTagGatt.UUID_ACC_DATA.toString())) {
 			v = Sensor.ACCELEROMETER.convert(rawValue);
 			msg = decimal.format(v.x) + "\n" + decimal.format(v.y) + "\n"
-			    + decimal.format(v.z) + "\n";
+					+ decimal.format(v.z) + "\n";
 			mAccValue = msg;
 
-            for (Button input : getInputs("Accelerometer")){
-                if (inputThresholds.get(input) < Math.sqrt(v.x*v.x+v.y*v.y+v.z*v.z)){
-                    trigger(input);
-                }
-            }
-            System.out.println("test123 accelerometer: " + Math.sqrt(v.x*v.x+v.y*v.y+v.z*v.z));
+			for (Button input : getInputs("Accelerometer")) {
+				if (inputThresholds.get(input) < Math.sqrt(v.x * v.x + v.y
+						* v.y + v.z * v.z)) {
+					trigger(input);
+				}
+			}
+			System.out.println("test123 accelerometer: "
+					+ Math.sqrt(v.x * v.x + v.y * v.y + v.z * v.z));
 		}
 
 		if (uuidStr.equals(SensorTagGatt.UUID_MAG_DATA.toString())) {
 			v = Sensor.MAGNETOMETER.convert(rawValue);
 			msg = decimal.format(v.x) + "\n" + decimal.format(v.y) + "\n"
-			    + decimal.format(v.z) + "\n";
+					+ decimal.format(v.z) + "\n";
 			mMagValue = msg;
-            for (Button input : getInputs("Magnetometer")){
-                if (inputThresholds.get(input) < Math.sqrt(v.x*v.x+v.y*v.y+v.z*v.z)){
-                    trigger(input);
-                }
-            }
-            
-			System.out.println("test123 magnetometer:  " + Math.sqrt(v.x*v.x+v.y*v.y+v.z*v.z));
+			for (Button input : getInputs("Magnetometer")) {
+				if (inputThresholds.get(input) < Math.sqrt(v.x * v.x + v.y
+						* v.y + v.z * v.z)) {
+					trigger(input);
+				}
+			}
+
+			System.out.println("test123 magnetometer:  "
+					+ Math.sqrt(v.x * v.x + v.y * v.y + v.z * v.z));
 		}
 
 		if (uuidStr.equals(SensorTagGatt.UUID_OPT_DATA.toString())) {
@@ -268,28 +268,30 @@ public class DeviceView extends Fragment {
 			msg = decimal.format(v.x) + "\n";
 			mLuxValue = msg;
 
-            for (Button input : getInputs("Ambient Light")){
-                if (inputThresholds.get(input) < v.x){
-                    trigger(input);
-                }
-            }
-            
-            System.out.println("test123 luxometer:  " + v.x);
+			for (Button input : getInputs("Ambient Light")) {
+				if (inputThresholds.get(input) < v.x) {
+					trigger(input);
+				}
+			}
+
+			System.out.println("test123 luxometer:  " + v.x);
 		}
 
 		if (uuidStr.equals(SensorTagGatt.UUID_GYR_DATA.toString())) {
 			v = Sensor.GYROSCOPE.convert(rawValue);
 			msg = decimal.format(v.x) + "\n" + decimal.format(v.y) + "\n"
-			    + decimal.format(v.z) + "\n";
+					+ decimal.format(v.z) + "\n";
 			mGyrValue = msg;
 
-            for (Button input : getInputs("Gyroscope")){
-                if (inputThresholds.get(input) < Math.sqrt(v.x*v.x+v.y*v.y+v.z*v.z)){
-                    trigger(input);
-                }
-            }
-            
-            System.out.println("test123 gyroscope:  " + Math.sqrt(v.x*v.x+v.y*v.y+v.z*v.z));
+			for (Button input : getInputs("Gyroscope")) {
+				if (inputThresholds.get(input) < Math.sqrt(v.x * v.x + v.y
+						* v.y + v.z * v.z)) {
+					trigger(input);
+				}
+			}
+
+			System.out.println("test123 gyroscope:  "
+					+ Math.sqrt(v.x * v.x + v.y * v.y + v.z * v.z));
 		}
 
 		if (uuidStr.equals(SensorTagGatt.UUID_IRT_DATA.toString())) {
@@ -299,49 +301,49 @@ public class DeviceView extends Fragment {
 			msg = decimal.format(v.y) + "\n";
 			mObjValue = msg;
 
-            for (Button input : getInputs("Temperature")){
-                if (inputThresholds.get(input) < v.x){
-                    trigger(input);
-                }
-            }
-            
-            System.out.println("test123 gyroscope:  " + v.x);
+			for (Button input : getInputs("Temperature")) {
+				if (inputThresholds.get(input) < v.x) {
+					trigger(input);
+				}
+			}
+
+			System.out.println("test123 gyroscope:  " + v.x);
 		}
 
 		if (uuidStr.equals(SensorTagGatt.UUID_HUM_DATA.toString())) {
 			v = Sensor.HUMIDITY.convert(rawValue);
 			msg = decimal.format(v.x) + "\n";
-			mHumValue= msg;
-            for (Button input : getInputs("Humidity")){
-                if (inputThresholds.get(input) < v.x){
-                    trigger(input);
-                }
-            }
-            System.out.println("test123 humidity:  " + v.x);
+			mHumValue = msg;
+			for (Button input : getInputs("Humidity")) {
+				if (inputThresholds.get(input) < v.x) {
+					trigger(input);
+				}
+			}
+			System.out.println("test123 humidity:  " + v.x);
 		}
 
 		if (uuidStr.equals(SensorTagGatt.UUID_BAR_DATA.toString())) {
 			v = Sensor.BAROMETER.convert(rawValue);
-			
+
 			double h = (v.x - BarometerCalibrationCoefficients.INSTANCE.heightCalibration)
-			    / PA_PER_METER;
+					/ PA_PER_METER;
 			h = (double) Math.round(-h * 10.0) / 10.0;
 			msg = decimal.format(v.x / 100.0f) + "\n" + h;
-			mBarValue=msg;
+			mBarValue = msg;
 
-            for (Button input : getInputs("Barometer")){
-                if (inputThresholds.get(input) < h){
-                    trigger(input);
-                }
-            }
-            System.out.println("test123 barometer:  " + v.x);
+			for (Button input : getInputs("Barometer")) {
+				if (inputThresholds.get(input) < h) {
+					trigger(input);
+				}
+			}
+			System.out.println("test123 barometer:  " + v.x);
 		}
 
 		if (uuidStr.equals(SensorTagGatt.UUID_KEY_DATA.toString())) {
 			int keys = rawValue[0];
 			SimpleKeysStatus s;
 			final int imgBtn;
-			s = Sensor.SIMPLE_KEYS.convertKeys((byte) (keys&3));
+			s = Sensor.SIMPLE_KEYS.convertKeys((byte) (keys & 3));
 
 			switch (s) {
 			case OFF_ON:
@@ -361,18 +363,18 @@ public class DeviceView extends Fragment {
 				break;
 			}
 
-			//mButton.setImageResource(imgBtn);
+			// mButton.setImageResource(imgBtn);
 
 			if (mIsSensorTag2) {
 				// Only applicable for SensorTag2
 				final int imgRelay;
 
-				if ((keys&4) == 4) {
+				if ((keys & 4) == 4) {
 					imgRelay = R.drawable.reed_open;
 				} else {
 					imgRelay = R.drawable.reed_closed;
 				}
-				//mRelay.setImageResource(imgRelay);
+				// mRelay.setImageResource(imgRelay);
 			}
 		}
 	}
@@ -392,96 +394,118 @@ public class DeviceView extends Fragment {
 	}
 
 	private void showItem(int id, boolean visible) {
-		//View hdr = table.getChildAt(id * 2 + ID_OFFSET);
-		//View txt = table.getChildAt(id * 2 + ID_OFFSET + 1);
-		//int vc = visible ? View.VISIBLE : View.GONE;
-		//hdr.setVisibility(vc);
-		//txt.setVisibility(vc);
+		// View hdr = table.getChildAt(id * 2 + ID_OFFSET);
+		// View txt = table.getChildAt(id * 2 + ID_OFFSET + 1);
+		// int vc = visible ? View.VISIBLE : View.GONE;
+		// hdr.setVisibility(vc);
+		// txt.setVisibility(vc);
 	}
 
-
 	void setBusy(boolean f) {
-		if (f != mBusy)
-		{
+		if (f != mBusy) {
 			mActivity.showBusyIndicator(f);
 			mBusy = f;
 		}
 	}
 
-	public boolean newInput(){
-        final CharSequence[] items = {"Accelerometer", "Temperature", "Ambient Light", "Humidity", "Barometer", "Gyroscope", "Compass", "Magnetometer"};
-        AlertDialog.Builder builder1 = new AlertDialog.Builder(getActivity());
+	public boolean newInput() {
+		final CharSequence[] items = { "Accelerometer", "Temperature",
+				"Ambient Light", "Humidity", "Barometer", "Gyroscope",
+				"Compass", "Magnetometer" };
+		AlertDialog.Builder builder1 = new AlertDialog.Builder(getActivity());
 
-        builder1.setItems(items, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                try {
-                    final Button b = new Button(getActivity());
-                    b.setMaxEms(10);
-                    b.setText(items[i]);
-                    Random rnd = new Random();
-                    int color = Color.argb(255, rnd.nextInt(16)*16, rnd.nextInt(16)*16, rnd.nextInt(16)*16);
-                    while (inputColorMap.containsValue(color)){
-                        color = Color.argb(255, rnd.nextInt(16)*16, rnd.nextInt(16)*16, rnd.nextInt(16)*16);
-                    }
-                    b.setBackgroundColor(color);
-                    inputColorMap.put(b, color);
+		builder1.setItems(items, new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialogInterface, int i) {
+				try {
+					AlertDialog.Builder alertDialog = new AlertDialog.Builder(
+							getActivity());
+					alertDialog.setTitle(items[i]);
+					alertDialog.setMessage("Trigger threshold:");
 
-                    b.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            if (selectedInput == b){
-                                b.setEnabled(true);
-                                selectedInput = null;
-                            }
-                            else {
-                                b.setEnabled(false);
-                                if (selectedInput != null) {
-                                    selectedInput.setEnabled(true);
-                                }
-                                selectedInput = b;
-                            }
-                        }
-                    });
+					final EditText input = new EditText(getActivity());
+					LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+							LinearLayout.LayoutParams.MATCH_PARENT,
+							LinearLayout.LayoutParams.MATCH_PARENT);
+					input.setLayoutParams(lp);
+					alertDialog.setView(input);
 
-                    inputs.addView(b);
-                    inputOutputMap.put(b, new HashSet<Button>());
+					alertDialog.setPositiveButton("OK",
+							new DialogInterface.OnClickListener() {
+								@Override
+								public void onClick(
+										DialogInterface dialogInterface, int i) {
 
+									if (input.getText() == null
+											|| input.getText().toString()
+													.isEmpty())
+										return;
+									Double threshold;
+									try {
+										threshold = Double.parseDouble(input
+												.getText().toString());
+									} catch (Exception e) {
+										return;
+									}
 
-                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
-                    alertDialog.setTitle(items[i]);
-                    alertDialog.setMessage("Trigger threshold:");
+									final Button b = new Button(getActivity());
+									b.setMaxEms(10);
+									b.setText(items[i]);
+									Random rnd = new Random();
+									int color = Color.argb(255,
+											rnd.nextInt(16) * 16,
+											rnd.nextInt(16) * 16,
+											rnd.nextInt(16) * 16);
+									while (inputColorMap.containsValue(color)) {
+										color = Color.argb(255,
+												rnd.nextInt(16) * 16,
+												rnd.nextInt(16) * 16,
+												rnd.nextInt(16) * 16);
+									}
+									b.setBackgroundColor(color);
+									inputColorMap.put(b, color);
 
-                    final EditText input = new EditText(getActivity());
-                    LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                            LinearLayout.LayoutParams.MATCH_PARENT,
-                            LinearLayout.LayoutParams.MATCH_PARENT);
-                    input.setLayoutParams(lp);
-                    alertDialog.setView(input);
+									b.setOnClickListener(new View.OnClickListener() {
+										@Override
+										public void onClick(View view) {
+											if (selectedInput == b) {
+												b.setEnabled(true);
+												selectedInput = null;
+											} else {
+												b.setEnabled(false);
+												if (selectedInput != null) {
+													selectedInput
+															.setEnabled(true);
+												}
+												selectedInput = b;
+											}
+										}
+									});
 
-                    alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            inputThresholds.put(b, Double.parseDouble(input.getText().toString()));
-                        }
-                    });
+									inputs.addView(b);
+									inputOutputMap
+											.put(b, new HashSet<Button>());
 
-                    AlertDialog alert12 = alertDialog.create();
-                    alert12.show();
+									inputThresholds.put(b, threshold);
+								}
+							});
 
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+					AlertDialog alert12 = alertDialog.create();
+					alert12.show();
 
-        AlertDialog alert11 = builder1.create();
-        alert11.show();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
 
-        return true;
+		AlertDialog alert11 = builder1.create();
+		alert11.show();
+
+		return true;
 	}
 
-	public void pickMusic(Intent data){
+	public void pickMusic(Intent data) {
 		Uri uri = data.getData();
 		final Button b = new Button(getActivity());
 		b.setMaxEms(10);
@@ -490,8 +514,8 @@ public class DeviceView extends Fragment {
 
 		b.setOnClickListener(new View.OnClickListener() {
 			@Override
-			public void onClick( View view ) {
-				if (selectedInput != null ) {
+			public void onClick(View view) {
+				if (selectedInput != null) {
 					selectedInput.setEnabled(true);
 					b.setBackgroundColor(inputColorMap.get(selectedInput));
 					inputOutputMap.get(selectedInput).add(b);
@@ -505,24 +529,28 @@ public class DeviceView extends Fragment {
 		outputs.addView(b);
 	}
 
-	private void executeOutputActionsOfInput( Button inputButton ){
-		if(!inputOutputMap.containsKey(inputButton)) return;
-		for (Button outputButton : inputOutputMap.get(inputButton)){
+	private void executeOutputActionsOfInput(Button inputButton) {
+		if (!inputOutputMap.containsKey(inputButton))
+			return;
+		for (Button outputButton : inputOutputMap.get(inputButton)) {
 			executeOutputAction(outputButton);
 		}
 	}
 
-
-	private void executeOutputAction(Button outputButton){
+	private void executeOutputAction(Button outputButton) {
 		mp = MediaPlayer.create(getActivity(), outputMap.get(outputButton));
 		mp.start();
 	}
 
-	public void testing(View v){
-		//Toast.makeText(v.getContext(), DeviceView.hello(), Toast.LENGTH_SHORT).show();
+	public void testing(View v) {
+		// Toast.makeText(v.getContext(), DeviceView.hello(),
+		// Toast.LENGTH_SHORT).show();
 		// Data read
-		// String uuidStr = intent.getStringExtra(BluetoothLeService.EXTRA_UUID);
-		// byte[] value = intent.getByteArrayExtra(BluetoothLeService.EXTRA_DATA);
-		//onCharacteristicsRead(SensorTagGatt.UUID_IRT_DATA.toString(), value, BluetoothGatt.GATT_SUCCESS);
+		// String uuidStr =
+		// intent.getStringExtra(BluetoothLeService.EXTRA_UUID);
+		// byte[] value =
+		// intent.getByteArrayExtra(BluetoothLeService.EXTRA_DATA);
+		// onCharacteristicsRead(SensorTagGatt.UUID_IRT_DATA.toString(), value,
+		// BluetoothGatt.GATT_SUCCESS);
 	}
 }
