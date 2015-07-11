@@ -218,9 +218,26 @@ public class DeviceView extends Fragment {
         return buttons;
     }
 
+    List<Button> triggered = new ArrayList<Button>();
+
     void trigger(Button input){
-        for (Button output : inputOutputMap.get(input)){
+        if (triggered.contains(input)) return;
+        for (Button b : inputOutputMap.get(input)){
+            final Button output = b;
             executeOutputAction(output);
+            triggered.add(output);
+            Thread t = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        wait(10000);
+                        triggered.remove(output);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            t.start();
         }
     }
 
