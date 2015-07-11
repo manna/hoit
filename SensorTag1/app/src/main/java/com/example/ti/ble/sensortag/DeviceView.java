@@ -2,12 +2,9 @@
   Filename:       DeviceView.java
   Revised:        $Date: 2013-08-30 12:02:37 +0200 (fr, 30 aug 2013) $
   Revision:       $Revision: 27470 $
-
   Copyright (c) 2013 - 2014 Texas Instruments Incorporated
-
   All rights reserved not granted herein.
   Limited License. 
-
   Texas Instruments Incorporated grants a world-wide, royalty-free,
   non-exclusive license under copyrights and patents it now or hereafter
   owns or controls to make, have made, use, import, offer to sell and sell ("Utilize")
@@ -16,32 +13,24 @@
   to Utilize the software alone.  The patent license shall not apply to any combinations which
   include this software, other than combinations with devices manufactured by or for TI (�TI Devices�). 
   No hardware patent is licensed hereunder.
-
   Redistributions must preserve existing copyright notices and reproduce this license (including the
   above copyright notice and the disclaimer and (if applicable) source code license limitations below)
   in the documentation and/or other materials provided with the distribution
-
   Redistribution and use in binary form, without modification, are permitted provided that the following
   conditions are met:
-
     * No reverse engineering, decompilation, or disassembly of this software is permitted with respect to any
       software provided in binary form.
     * any redistribution and use are licensed by TI for use only with TI Devices.
     * Nothing shall obligate TI to provide you with source code for the software licensed and provided to you in object code.
-
   If software source code is provided to you, modification and redistribution of the source code are permitted
   provided that the following conditions are met:
-
     * any redistribution and use of the source code, including any resulting derivative works, are licensed by
       TI for use only with TI Devices.
     * any redistribution and use of any object code compiled from the source code and any resulting derivative
       works, are licensed by TI for use only with TI Devices.
-
   Neither the name of Texas Instruments Incorporated nor the names of its suppliers may be used to endorse or
   promote products derived from this software without specific prior written permission.
-
   DISCLAIMER.
-
   THIS SOFTWARE IS PROVIDED BY TI AND TI�S LICENSORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING,
   BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
   IN NO EVENT SHALL TI AND TI�S LICENSORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
@@ -49,8 +38,6 @@
   OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
   OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
   POSSIBILITY OF SUCH DAMAGE.
-
-
  **************************************************************************************************/
 package com.example.ti.ble.sensortag;
 
@@ -186,13 +173,11 @@ public class DeviceView extends Fragment {
 				}
 			}
 		};
-
 		if (mMagPanel != null)
 			mMagPanel.setOnClickListener(cl);
-		mBarPanel.setOnClickListener(cl);
-
+		mBarPanel.setOnClickListener(cl);*/
 		// Notify activity that UI has been inflated
-		mActivity.onViewInflated(view);*/
+		mActivity.onViewInflated(view);
 
 		return view;
 	}
@@ -221,6 +206,7 @@ public class DeviceView extends Fragment {
     List<Button> triggered = new ArrayList<Button>();
 
     void trigger(Button input){
+    	System.out.println("test123 trigger " + input.getText().toString() );
         if (triggered.contains(input)) return;
         for (Button b : inputOutputMap.get(input)){
             final Button output = b;
@@ -247,7 +233,8 @@ public class DeviceView extends Fragment {
 	public void onCharacteristicChanged(String uuidStr, byte[] rawValue) {
 		Point3D v;
 		String msg;
-
+		
+		
 		if (uuidStr.equals(SensorTagGatt.UUID_ACC_DATA.toString())) {
 			v = Sensor.ACCELEROMETER.convert(rawValue);
 			msg = decimal.format(v.x) + "\n" + decimal.format(v.y) + "\n"
@@ -259,6 +246,7 @@ public class DeviceView extends Fragment {
                     trigger(input);
                 }
             }
+            System.out.println("test123 accelerometer: " + Math.sqrt(v.x*v.x+v.y*v.y+v.z*v.z));
 		}
 
 		if (uuidStr.equals(SensorTagGatt.UUID_MAG_DATA.toString())) {
@@ -271,6 +259,8 @@ public class DeviceView extends Fragment {
                     trigger(input);
                 }
             }
+            
+			System.out.println("test123 magnetometer:  " + Math.sqrt(v.x*v.x+v.y*v.y+v.z*v.z));
 		}
 
 		if (uuidStr.equals(SensorTagGatt.UUID_OPT_DATA.toString())) {
@@ -283,6 +273,8 @@ public class DeviceView extends Fragment {
                     trigger(input);
                 }
             }
+            
+            System.out.println("test123 luxometer:  " + v.x);
 		}
 
 		if (uuidStr.equals(SensorTagGatt.UUID_GYR_DATA.toString())) {
@@ -296,6 +288,8 @@ public class DeviceView extends Fragment {
                     trigger(input);
                 }
             }
+            
+            System.out.println("test123 gyroscope:  " + Math.sqrt(v.x*v.x+v.y*v.y+v.z*v.z));
 		}
 
 		if (uuidStr.equals(SensorTagGatt.UUID_IRT_DATA.toString())) {
@@ -310,6 +304,8 @@ public class DeviceView extends Fragment {
                     trigger(input);
                 }
             }
+            
+            System.out.println("test123 gyroscope:  " + v.x);
 		}
 
 		if (uuidStr.equals(SensorTagGatt.UUID_HUM_DATA.toString())) {
@@ -321,6 +317,7 @@ public class DeviceView extends Fragment {
                     trigger(input);
                 }
             }
+            System.out.println("test123 humidity:  " + v.x);
 		}
 
 		if (uuidStr.equals(SensorTagGatt.UUID_BAR_DATA.toString())) {
@@ -337,6 +334,7 @@ public class DeviceView extends Fragment {
                     trigger(input);
                 }
             }
+            System.out.println("test123 barometer:  " + v.x);
 		}
 
 		if (uuidStr.equals(SensorTagGatt.UUID_KEY_DATA.toString())) {
@@ -450,11 +448,11 @@ public class DeviceView extends Fragment {
                     inputOutputMap.put(b, new HashSet<Button>());
 
 
-                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(getApplicationContext());
+                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
                     alertDialog.setTitle(items[i]);
                     alertDialog.setMessage("Trigger threshold:");
 
-                    final EditText input = new EditText(getApplicationContext());
+                    final EditText input = new EditText(getActivity());
                     LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                             LinearLayout.LayoutParams.MATCH_PARENT,
                             LinearLayout.LayoutParams.MATCH_PARENT);
@@ -485,7 +483,7 @@ public class DeviceView extends Fragment {
 
 	public void pickMusic(Intent data){
 		Uri uri = data.getData();
-		final Button b = new Button(getActivity().getApplicationContext());
+		final Button b = new Button(getActivity());
 		b.setMaxEms(10);
 		b.setText("SPEAKER: " + uri.toString());
 		outputMap.put(b, uri);
@@ -496,6 +494,7 @@ public class DeviceView extends Fragment {
 				if (selectedInput != null ) {
 					selectedInput.setEnabled(true);
 					b.setBackgroundColor(inputColorMap.get(selectedInput));
+					inputOutputMap.get(selectedInput).add(b);
 					selectedInput = null;
 				} else {
 					executeOutputAction(b);
@@ -515,7 +514,7 @@ public class DeviceView extends Fragment {
 
 
 	private void executeOutputAction(Button outputButton){
-		mp = MediaPlayer.create(getActivity().getApplicationContext(), outputMap.get(outputButton));
+		mp = MediaPlayer.create(getActivity(), outputMap.get(outputButton));
 		mp.start();
 	}
 

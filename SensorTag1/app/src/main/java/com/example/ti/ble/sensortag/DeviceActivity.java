@@ -1,54 +1,54 @@
 /**************************************************************************************************
-  Filename:       DeviceActivity.java
-  Revised:        $Date: 2013-09-05 07:58:48 +0200 (to, 05 sep 2013) $
-  Revision:       $Revision: 27616 $
+ Filename:       DeviceActivity.java
+ Revised:        $Date: 2013-09-05 07:58:48 +0200 (to, 05 sep 2013) $
+ Revision:       $Revision: 27616 $
 
-  Copyright (c) 2013 - 2014 Texas Instruments Incorporated
+ Copyright (c) 2013 - 2014 Texas Instruments Incorporated
 
-  All rights reserved not granted herein.
-  Limited License. 
+ All rights reserved not granted herein.
+ Limited License.
 
-  Texas Instruments Incorporated grants a world-wide, royalty-free,
-  non-exclusive license under copyrights and patents it now or hereafter
-  owns or controls to make, have made, use, import, offer to sell and sell ("Utilize")
-  this software subject to the terms herein.  With respect to the foregoing patent
-  license, such license is granted  solely to the extent that any such patent is necessary
-  to Utilize the software alone.  The patent license shall not apply to any combinations which
-  include this software, other than combinations with devices manufactured by or for TI (�TI Devices�). 
-  No hardware patent is licensed hereunder.
+ Texas Instruments Incorporated grants a world-wide, royalty-free,
+ non-exclusive license under copyrights and patents it now or hereafter
+ owns or controls to make, have made, use, import, offer to sell and sell ("Utilize")
+ this software subject to the terms herein.  With respect to the foregoing patent
+ license, such license is granted  solely to the extent that any such patent is necessary
+ to Utilize the software alone.  The patent license shall not apply to any combinations which
+ include this software, other than combinations with devices manufactured by or for TI (?TI Devices?).
+ No hardware patent is licensed hereunder.
 
-  Redistributions must preserve existing copyright notices and reproduce this license (including the
-  above copyright notice and the disclaimer and (if applicable) source code license limitations below)
-  in the documentation and/or other materials provided with the distribution
+ Redistributions must preserve existing copyright notices and reproduce this license (including the
+ above copyright notice and the disclaimer and (if applicable) source code license limitations below)
+ in the documentation and/or other materials provided with the distribution
 
-  Redistribution and use in binary form, without modification, are permitted provided that the following
-  conditions are met:
+ Redistribution and use in binary form, without modification, are permitted provided that the following
+ conditions are met:
 
-    * No reverse engineering, decompilation, or disassembly of this software is permitted with respect to any
-      software provided in binary form.
-    * any redistribution and use are licensed by TI for use only with TI Devices.
-    * Nothing shall obligate TI to provide you with source code for the software licensed and provided to you in object code.
+ * No reverse engineering, decompilation, or disassembly of this software is permitted with respect to any
+ software provided in binary form.
+ * any redistribution and use are licensed by TI for use only with TI Devices.
+ * Nothing shall obligate TI to provide you with source code for the software licensed and provided to you in object code.
 
-  If software source code is provided to you, modification and redistribution of the source code are permitted
-  provided that the following conditions are met:
+ If software source code is provided to you, modification and redistribution of the source code are permitted
+ provided that the following conditions are met:
 
-    * any redistribution and use of the source code, including any resulting derivative works, are licensed by
-      TI for use only with TI Devices.
-    * any redistribution and use of any object code compiled from the source code and any resulting derivative
-      works, are licensed by TI for use only with TI Devices.
+ * any redistribution and use of the source code, including any resulting derivative works, are licensed by
+ TI for use only with TI Devices.
+ * any redistribution and use of any object code compiled from the source code and any resulting derivative
+ works, are licensed by TI for use only with TI Devices.
 
-  Neither the name of Texas Instruments Incorporated nor the names of its suppliers may be used to endorse or
-  promote products derived from this software without specific prior written permission.
+ Neither the name of Texas Instruments Incorporated nor the names of its suppliers may be used to endorse or
+ promote products derived from this software without specific prior written permission.
 
-  DISCLAIMER.
+ DISCLAIMER.
 
-  THIS SOFTWARE IS PROVIDED BY TI AND TI�S LICENSORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING,
-  BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
-  IN NO EVENT SHALL TI AND TI�S LICENSORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
-  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA,
-  OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
-  POSSIBILITY OF SUCH DAMAGE.
+ THIS SOFTWARE IS PROVIDED BY TI AND TI?S LICENSORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING,
+ BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ IN NO EVENT SHALL TI AND TI?S LICENSORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA,
+ OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ POSSIBILITY OF SUCH DAMAGE.
 
 
  **************************************************************************************************/
@@ -166,7 +166,6 @@ public class DeviceActivity extends ViewPagerActivity {
 
 		// Initialize sensor list
 		updateSensorList();
-
 	}
 
 	@Override
@@ -189,41 +188,41 @@ public class DeviceActivity extends ViewPagerActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle presses on the action bar items
 		switch (item.getItemId()) {
-		case R.id.opt_prefs:
-			startPreferenceActivity();
-			break;
-		case R.id.opt_fwupdate:
-			startOadActivity();
-			break;
-		case R.id.opt_about:
-			openAboutDialog();
-			break;
-		case R.id.new_input:
-			mDeviceView.newInput();
-			break;
-		case R.id.new_output:
-            final CharSequence[] items = {"Speakers"};
+			case R.id.opt_prefs:
+				startPreferenceActivity();
+				break;
+			case R.id.opt_fwupdate:
+				startOadActivity();
+				break;
+			case R.id.opt_about:
+				openAboutDialog();
+				break;
+			case R.id.new_input:
+				mDeviceView.newInput();
+				break;
+			case R.id.new_output:
+				final CharSequence[] items = {"Speakers"};
 
-            AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+				AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
 
-            builder1.setItems(items, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    switch (items[i].toString()){
-                        case "Speakers":
-                            Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI);
-                            startActivityForResult(intent,MUSIC_PICKER_CODE);
-                            break;
-                        default:
-                            break;
-                    }
-                }
-            });
-            AlertDialog alert11 = builder1.create();
-            alert11.show();
-			break;
-		default:
-			return super.onOptionsItemSelected(item);
+				builder1.setItems(items, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialogInterface, int i) {
+						switch (items[i].toString()){
+							case "Speakers":
+								Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI);
+								startActivityForResult(intent,MUSIC_PICKER_CODE);
+								break;
+							default:
+								break;
+						}
+					}
+				});
+				AlertDialog alert11 = builder1.create();
+				alert11.show();
+				break;
+			default:
+				return super.onOptionsItemSelected(item);
 		}
 		return true;
 	}
@@ -302,10 +301,10 @@ public class DeviceActivity extends ViewPagerActivity {
 
 	boolean isEnabledByPrefs(final Sensor sensor) {
 		String preferenceKeyString = "pref_"
-		    + sensor.name().toLowerCase(Locale.ENGLISH) + "_on";
+				+ sensor.name().toLowerCase(Locale.ENGLISH) + "_on";
 
 		SharedPreferences prefs = PreferenceManager
-		    .getDefaultSharedPreferences(this);
+				.getDefaultSharedPreferences(this);
 
 		Boolean defaultValue = true;
 		return prefs.getBoolean(preferenceKeyString, defaultValue);
@@ -320,13 +319,13 @@ public class DeviceActivity extends ViewPagerActivity {
 	}
 
 	private void startOadActivity() {
-    // For the moment OAD does not work on Galaxy S3 (disconnects on parameter update)
-    if (Build.MODEL.contains("I9300")) {
+		// For the moment OAD does not work on Galaxy S3 (disconnects on parameter update)
+		if (Build.MODEL.contains("I9300")) {
 			Toast.makeText(this, "OAD not available on this Android device",
-			    Toast.LENGTH_LONG).show();
+					Toast.LENGTH_LONG).show();
 			return;
-    }
-    	
+		}
+
 		if (mOadService != null && mConnControlService != null) {
 			// Disable sensors and notifications when the OAD dialog is open
 			enableDataCollection(false);
@@ -335,7 +334,7 @@ public class DeviceActivity extends ViewPagerActivity {
 			startActivityForResult(i, FWUPDATE_ACT_REQ);
 		} else {
 			Toast.makeText(this, "OAD not available on this BLE device",
-			    Toast.LENGTH_LONG).show();
+					Toast.LENGTH_LONG).show();
 		}
 	}
 
@@ -345,7 +344,7 @@ public class DeviceActivity extends ViewPagerActivity {
 		// Launch preferences
 		final Intent i = new Intent(this, PreferencesActivity.class);
 		i.putExtra(PreferencesActivity.EXTRA_SHOW_FRAGMENT,
-		    PreferencesFragment.class.getName());
+				PreferencesFragment.class.getName());
 		i.putExtra(PreferencesActivity.EXTRA_NO_HEADERS, true);
 		i.putExtra(EXTRA_DEVICE, mBluetoothDevice);
 		startActivityForResult(i, PREF_ACT_REQ);
@@ -357,7 +356,7 @@ public class DeviceActivity extends ViewPagerActivity {
 		mConnControlService = null;
 
 		for (int i = 0; i < mServiceList.size()
-		    && (mOadService == null || mConnControlService == null); i++) {
+				&& (mOadService == null || mConnControlService == null); i++) {
 			BluetoothGattService srv = mServiceList.get(i);
 			if (srv.getUuid().equals(GattInfo.OAD_SERVICE_UUID)) {
 				mOadService = srv;
@@ -429,7 +428,7 @@ public class DeviceActivity extends ViewPagerActivity {
 			if (serv != null) {
 				BluetoothGattCharacteristic charac = serv.getCharacteristic(confUuid);
 				byte value = enable ? sensor.getEnableSensorCode()
-				    : Sensor.DISABLE_SENSOR_CODE;
+						: Sensor.DISABLE_SENSOR_CODE;
 				if (mBtLeService.writeCharacteristic(charac, value)) {
 					mBtLeService.waitIdle(GATT_TIMEOUT);
 				} else {
@@ -492,7 +491,7 @@ public class DeviceActivity extends ViewPagerActivity {
 		mBtLeService.writeCharacteristic(config, Sensor.CALIBRATE_SENSOR_CODE);
 		mBtLeService.waitIdle(GATT_TIMEOUT);
 		BluetoothGattCharacteristic calibrationCharacteristic = serv
-		    .getCharacteristic(SensorTagGatt.UUID_BAR_CALI);
+				.getCharacteristic(SensorTagGatt.UUID_BAR_CALI);
 		mBtLeService.readCharacteristic(calibrationCharacteristic);
 		mBtLeService.waitIdle(GATT_TIMEOUT);
 	}
@@ -524,30 +523,31 @@ public class DeviceActivity extends ViewPagerActivity {
 	// Activity result handling
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-
+		
 		switch (requestCode) {
-		case PREF_ACT_REQ:
-			mDeviceView.updateVisibility();
-			Toast.makeText(this, "Applying preferences", Toast.LENGTH_SHORT).show();
-			if (!mIsReceiving) {
-				mIsReceiving = true;
-				registerReceiver(mGattUpdateReceiver, makeGattUpdateIntentFilter());
-			}
+			case PREF_ACT_REQ:
+				mDeviceView.updateVisibility();
+				Toast.makeText(this, "Applying preferences", Toast.LENGTH_SHORT).show();
+				if (!mIsReceiving) {
+					mIsReceiving = true;
+					registerReceiver(mGattUpdateReceiver, makeGattUpdateIntentFilter());
+				}
 
-			updateSensorList();
-			enableDataCollection(true);
-			break;
-		case FWUPDATE_ACT_REQ:
-			// FW update cancelled so resume
-			enableDataCollection(true);
-			break;
-		case MUSIC_PICKER_CODE:
-			if (resultCode == RESULT_OK) {
-				mDeviceView.pickMusic(data);
-			}
-		default:
-			setError("Unknown request code");
-			break;
+				updateSensorList();
+				enableDataCollection(true);
+				break;
+			case FWUPDATE_ACT_REQ:
+				// FW update cancelled so resume
+				enableDataCollection(true);
+				break;
+			case MUSIC_PICKER_CODE:
+				if (resultCode == RESULT_OK) {
+					mDeviceView.pickMusic(data);
+				}
+				break;
+			default:
+				setError("Unknown request code");
+				break;
 		}
 	}
 
@@ -556,7 +556,7 @@ public class DeviceActivity extends ViewPagerActivity {
 		public void onReceive(Context context, Intent intent) {
 			final String action = intent.getAction();
 			int status = intent.getIntExtra(BluetoothLeService.EXTRA_STATUS,
-			    BluetoothGatt.GATT_SUCCESS);
+					BluetoothGatt.GATT_SUCCESS);
 
 			if (BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED.equals(action)) {
 				if (status == BluetoothGatt.GATT_SUCCESS) {
@@ -567,7 +567,7 @@ public class DeviceActivity extends ViewPagerActivity {
 					getFirmwareRevison();
 				} else {
 					Toast.makeText(getApplication(), "Service discovery failed",
-					    Toast.LENGTH_LONG).show();
+							Toast.LENGTH_LONG).show();
 					return;
 				}
 			} else if (BluetoothLeService.ACTION_DATA_NOTIFY.equals(action)) {
@@ -575,7 +575,7 @@ public class DeviceActivity extends ViewPagerActivity {
 				byte[] value = intent.getByteArrayExtra(BluetoothLeService.EXTRA_DATA);
 				String uuidStr = intent.getStringExtra(BluetoothLeService.EXTRA_UUID);
 				onCharacteristicChanged(uuidStr, value);
-				
+
 				//Intent i = new Intent(context, Hub.class);
 				//i.putExtra("mIsSensorTag2", mIsSensorTag2);
 				//startActivity(i);
@@ -608,7 +608,7 @@ public class DeviceActivity extends ViewPagerActivity {
 					MagnetometerCalibrationCoefficients.INSTANCE.val = v;
 					mMagCalibrateRequest = false;
 					Toast.makeText(this, "Magnetometer calibrated", Toast.LENGTH_SHORT)
-					    .show();
+							.show();
 				}
 			}
 
@@ -619,7 +619,7 @@ public class DeviceActivity extends ViewPagerActivity {
 					BarometerCalibrationCoefficients.INSTANCE.heightCalibration = v.x;
 					mHeightCalibrateRequest = false;
 					Toast.makeText(this, "Height measurement calibrated",
-					    Toast.LENGTH_SHORT).show();
+							Toast.LENGTH_SHORT).show();
 				}
 			}
 
@@ -642,7 +642,7 @@ public class DeviceActivity extends ViewPagerActivity {
 			// Sanity check
 			if (value.length != 16)
 				return;
-			
+
 			// Barometer calibration values are read.
 			List<Integer> cal = new ArrayList<Integer>();
 			for (int offset = 0; offset < 8; offset += 2) {
