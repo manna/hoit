@@ -1,4 +1,17 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".DeviceView" >
+
+    <item
+        android:id="@+id/new_output"
+        android:orderInCategory="100"
+        android:showAsAction="ifRoom"
+        android:title="New Output"/>
+    <item
+        android:id="@+id/new_input"
+        android:orderInCategory="100"
+        android:showAsAction="ifRoom"
+        android:title="New Input"/>
 
      <item
         android:id="@+id/opt_progress"
@@ -10,14 +23,13 @@
         android:id="@+id/opt_prefs"
         android:orderInCategory="1"
         android:showAsAction="ifRoom"
-        android:icon="@drawable/ic_action_settings" 
+        android:icon="@drawable/ic_action_settings"
         android:title="@string/prefs"/>
     <item
         android:id="@+id/opt_fwupdate"
         android:title="@string/fwupdate"/>
     <item
         android:id="@+id/opt_about"
-        android:icon="@drawable/ic_action_about" 
+        android:icon="@drawable/ic_action_about"
         android:title="@string/about"/>
-
 </menu>

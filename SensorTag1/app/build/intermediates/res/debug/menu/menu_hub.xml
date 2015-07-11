@@ -1,0 +1,17 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".Hub" >
+
+    <item
+        android:id="@+id/new_output"
+        android:orderInCategory="100"
+        android:showAsAction="ifRoom"
+        android:title="New Output"/>
+    <item
+        android:id="@+id/new_input"
+        android:orderInCategory="100"
+        android:showAsAction="ifRoom"
+        android:title="New Input"/>
+
+</menu><!-- From: file:/C:/Users/Simon/Downloads/Classes/Code/_Hackathon_/IFTTT/hoit/SensorTag1/app/src/main/res/menu/menu_hub.xml -->

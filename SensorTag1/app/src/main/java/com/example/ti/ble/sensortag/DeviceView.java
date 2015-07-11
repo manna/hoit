@@ -55,14 +55,25 @@
 package com.example.ti.ble.sensortag;
 
 import java.text.DecimalFormat;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Random;
+import java.util.Set;
 
+import android.content.Intent;
+import android.graphics.Color;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -87,19 +98,19 @@ public class DeviceView extends Fragment {
 	public static DeviceView mInstance = null;
 
 	// GUI
-	private TableLayout table;
-	private TextView mAccValue;
-	private TextView mMagValue;
-	private TextView mLuxValue;
-	private TextView mGyrValue;
-	private TextView mObjValue;
-	private TextView mAmbValue;
-	private TextView mHumValue;
-	private TextView mBarValue;
-	private ImageView mButton;
-	private ImageView mRelay;
-	private TableRow mMagPanel;
-	private TableRow mBarPanel;
+	//private TableLayout table;
+	//private TextView mAccValue;
+	//private TextView mMagValue;
+	//private TextView mLuxValue;
+	//private TextView mGyrValue;
+	//private TextView mObjValue;
+	//private TextView mAmbValue;
+	//private TextView mHumValue;
+	//private TextView mBarValue;
+	//private ImageView mButton;
+	//private ImageView mRelay;
+	//private TableRow mMagPanel;
+	//private TableRow mBarPanel;
 
 	// House-keeping
 	private DecimalFormat decimal = new DecimalFormat("+0.00;-0.00");
@@ -107,6 +118,15 @@ public class DeviceView extends Fragment {
 	private static final double PA_PER_METER = 12.0;
 	private boolean mIsSensorTag2;
 	private boolean mBusy;
+
+	HashMap<Button, Integer> inputColorMap = new HashMap<>();
+	HashMap<Button, Set<Button>> inputOutputMap = new HashMap<>();
+	HashMap<Button, Uri> outputMap = new HashMap<>();
+	Button testBtn;
+	Button selectedInput = null;
+	LinearLayout inputs, outputs;
+
+	MediaPlayer mp;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -120,29 +140,33 @@ public class DeviceView extends Fragment {
 
 		if (mIsSensorTag2) {
 			view = inflater.inflate(R.layout.services_browser2, container, false);
-			table = (TableLayout) view.findViewById(R.id.services_browser_layout2);
-			mLuxValue = (TextView) view.findViewById(R.id.luxometerTxt);
-			mMagPanel = null;
-			mRelay = (ImageView) view.findViewById(R.id.relay);
+			//table = (TableLayout) view.findViewById(R.id.services_browser_layout2);
+			//mLuxValue = (TextView) view.findViewById(R.id.luxometerTxt);
+			//mMagPanel = null;
+			//mRelay = (ImageView) view.findViewById(R.id.relay);
 		} else {
 			view = inflater.inflate(R.layout.services_browser, container, false);
-			table = (TableLayout) view.findViewById(R.id.services_browser_layout);
-			mMagValue = (TextView) view.findViewById(R.id.magnetometerTxt);
-			mMagPanel = (TableRow) view.findViewById(R.id.magPanel);
-			mRelay = null;
+			//table = (TableLayout) view.findViewById(R.id.services_browser_layout);
+			//mMagValue = (TextView) view.findViewById(R.id.magnetometerTxt);
+			//mMagPanel = (TableRow) view.findViewById(R.id.magPanel);
+			//mRelay = null;
 		}
 
+		inputs = (LinearLayout)view.findViewById(R.id.inputs);
+		outputs = (LinearLayout)view.findViewById(R.id.outputs);
+		testBtn = (Button) view.findViewById(R.id.button);
+
 		// UI widgets
-		mAccValue = (TextView) view.findViewById(R.id.accelerometerTxt);
-		mGyrValue = (TextView) view.findViewById(R.id.gyroscopeTxt);
-		mObjValue = (TextView) view.findViewById(R.id.objTemperatureText);
-		mAmbValue = (TextView) view.findViewById(R.id.ambientTemperatureTxt);
-		mHumValue = (TextView) view.findViewById(R.id.humidityTxt);
-		mBarValue = (TextView) view.findViewById(R.id.barometerTxt);
-		mButton = (ImageView) view.findViewById(R.id.buttons);
+		//mAccValue = (TextView) view.findViewById(R.id.accelerometerTxt);
+		//mGyrValue = (TextView) view.findViewById(R.id.gyroscopeTxt);
+		//mObjValue = (TextView) view.findViewById(R.id.objTemperatureText);
+		//mAmbValue = (TextView) view.findViewById(R.id.ambientTemperatureTxt);
+		//mHumValue = (TextView) view.findViewById(R.id.humidityTxt);
+		//mBarValue = (TextView) view.findViewById(R.id.barometerTxt);
+		//mButton = (ImageView) view.findViewById(R.id.buttons);
 
 		// Support for calibration
-		mBarPanel = (TableRow) view.findViewById(R.id.barPanel);
+		/*mBarPanel = (TableRow) view.findViewById(R.id.barPanel);
 		OnClickListener cl = new OnClickListener() {
 			public void onClick(View v) {
 				switch (v.getId()) {
@@ -162,7 +186,7 @@ public class DeviceView extends Fragment {
 		mBarPanel.setOnClickListener(cl);
 
 		// Notify activity that UI has been inflated
-		mActivity.onViewInflated(view);
+		mActivity.onViewInflated(view);*/
 
 		return view;
 	}
@@ -189,41 +213,41 @@ public class DeviceView extends Fragment {
 			v = Sensor.ACCELEROMETER.convert(rawValue);
 			msg = decimal.format(v.x) + "\n" + decimal.format(v.y) + "\n"
 			    + decimal.format(v.z) + "\n";
-			mAccValue.setText(msg);
+			//mAccValue.setText(msg);
 		}
 
 		if (uuidStr.equals(SensorTagGatt.UUID_MAG_DATA.toString())) {
 			v = Sensor.MAGNETOMETER.convert(rawValue);
 			msg = decimal.format(v.x) + "\n" + decimal.format(v.y) + "\n"
 			    + decimal.format(v.z) + "\n";
-			mMagValue.setText(msg);
+			//mMagValue.setText(msg);
 		}
 
 		if (uuidStr.equals(SensorTagGatt.UUID_OPT_DATA.toString())) {
 			v = Sensor.LUXOMETER.convert(rawValue);
 			msg = decimal.format(v.x) + "\n";
-			mLuxValue.setText(msg);
+			//mLuxValue.setText(msg);
 		}
 
 		if (uuidStr.equals(SensorTagGatt.UUID_GYR_DATA.toString())) {
 			v = Sensor.GYROSCOPE.convert(rawValue);
 			msg = decimal.format(v.x) + "\n" + decimal.format(v.y) + "\n"
 			    + decimal.format(v.z) + "\n";
-			mGyrValue.setText(msg);
+			//mGyrValue.setText(msg);
 		}
 
 		if (uuidStr.equals(SensorTagGatt.UUID_IRT_DATA.toString())) {
 			v = Sensor.IR_TEMPERATURE.convert(rawValue);
 			msg = decimal.format(v.x) + "\n";
-			mAmbValue.setText(msg);
+			//mAmbValue.setText(msg);
 			msg = decimal.format(v.y) + "\n";
-			mObjValue.setText(msg);
+			//mObjValue.setText(msg);
 		}
 
 		if (uuidStr.equals(SensorTagGatt.UUID_HUM_DATA.toString())) {
 			v = Sensor.HUMIDITY.convert(rawValue);
 			msg = decimal.format(v.x) + "\n";
-			mHumValue.setText(msg);
+			//mHumValue.setText(msg);
 		}
 
 		if (uuidStr.equals(SensorTagGatt.UUID_BAR_DATA.toString())) {
@@ -233,7 +257,7 @@ public class DeviceView extends Fragment {
 			    / PA_PER_METER;
 			h = (double) Math.round(-h * 10.0) / 10.0;
 			msg = decimal.format(v.x / 100.0f) + "\n" + h;
-			mBarValue.setText(msg);
+			//mBarValue.setText(msg);
 		}
 
 		if (uuidStr.equals(SensorTagGatt.UUID_KEY_DATA.toString())) {
@@ -260,7 +284,7 @@ public class DeviceView extends Fragment {
 				break;
 			}
 
-			mButton.setImageResource(imgBtn);
+			//mButton.setImageResource(imgBtn);
 
 			if (mIsSensorTag2) {
 				// Only applicable for SensorTag2
@@ -271,7 +295,7 @@ public class DeviceView extends Fragment {
 				} else {
 					imgRelay = R.drawable.reed_closed;
 				}
-				mRelay.setImageResource(imgRelay);
+				//mRelay.setImageResource(imgRelay);
 			}
 		}
 	}
@@ -291,11 +315,11 @@ public class DeviceView extends Fragment {
 	}
 
 	private void showItem(int id, boolean visible) {
-		View hdr = table.getChildAt(id * 2 + ID_OFFSET);
-		View txt = table.getChildAt(id * 2 + ID_OFFSET + 1);
-		int vc = visible ? View.VISIBLE : View.GONE;
-		hdr.setVisibility(vc);
-		txt.setVisibility(vc);
+		//View hdr = table.getChildAt(id * 2 + ID_OFFSET);
+		//View txt = table.getChildAt(id * 2 + ID_OFFSET + 1);
+		//int vc = visible ? View.VISIBLE : View.GONE;
+		//hdr.setVisibility(vc);
+		//txt.setVisibility(vc);
 	}
 
 
@@ -305,5 +329,88 @@ public class DeviceView extends Fragment {
 			mActivity.showBusyIndicator(f);
 			mBusy = f;
 		}
+	}
+
+	public boolean newInput(){
+		try {
+			final Button b = new Button(getActivity().getApplicationContext());
+			b.setMaxEms(10);
+			b.setText("Sensor");
+			Random rnd = new Random();
+			int color = Color.argb(255, rnd.nextInt(16) * 16, rnd.nextInt(16) * 16, rnd.nextInt(16) * 16);
+			while (inputColorMap.containsValue(color)){
+				color = Color.argb(255, rnd.nextInt(16)*16, rnd.nextInt(16)*16, rnd.nextInt(16)*16);
+			}
+			b.setBackgroundColor(color);
+			inputColorMap.put(b, color);
+
+			b.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View view) {
+					if (selectedInput == b){
+						b.setEnabled(true);
+						selectedInput = null;
+					}
+					else {
+						b.setEnabled(false);
+						if (selectedInput != null) {
+							selectedInput.setEnabled(true);
+						}
+						selectedInput = b;
+					}
+				}
+			});
+
+			inputs.addView(b);
+			inputOutputMap.put(b, new HashSet<Button>());
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	public void pickMusic(Intent data){
+		Uri uri = data.getData();
+		final Button b = new Button(getActivity().getApplicationContext());
+		b.setMaxEms(10);
+		b.setText("SPEAKER: " + uri.toString());
+		outputMap.put(b, uri);
+
+		b.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick( View view ) {
+				if (selectedInput != null ) {
+					selectedInput.setEnabled(true);
+					b.setBackgroundColor(inputColorMap.get(selectedInput));
+					selectedInput = null;
+				} else {
+					executeOutputAction(b);
+				}
+			}
+		});
+
+		outputs.addView(b);
+	}
+
+	private void executeOutputActionsOfInput( Button inputButton ){
+		if(!inputOutputMap.containsKey(inputButton)) return;
+		for (Button outputButton : inputOutputMap.get(inputButton)){
+			executeOutputAction(outputButton);
+		}
+	}
+
+
+	private void executeOutputAction(Button outputButton){
+		mp = MediaPlayer.create(getActivity().getApplicationContext(), outputMap.get(outputButton));
+		mp.start();
+	}
+
+	public void testing(View v){
+		//Toast.makeText(v.getContext(), DeviceView.hello(), Toast.LENGTH_SHORT).show();
+		// Data read
+		// String uuidStr = intent.getStringExtra(BluetoothLeService.EXTRA_UUID);
+		// byte[] value = intent.getByteArrayExtra(BluetoothLeService.EXTRA_DATA);
+		//onCharacteristicsRead(SensorTagGatt.UUID_IRT_DATA.toString(), value, BluetoothGatt.GATT_SUCCESS);
 	}
 }

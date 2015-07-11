@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -23,6 +24,7 @@ import java.util.Set;
 
 import com.example.ti.ble.common.BluetoothLeService;
 import com.example.ti.ble.sensortag.BarometerCalibrationCoefficients;
+import com.example.ti.ble.sensortag.DeviceView;
 import com.example.ti.ble.sensortag.R;
 import com.example.ti.ble.sensortag.SensorTagGatt;
 
@@ -163,44 +165,10 @@ public class Hub extends FragmentActivity {
     }
 
     public void testing(View v){
-        Toast.makeText(v.getContext(), "OAD not available on this Android device", Toast.LENGTH_LONG).show();
+        //Toast.makeText(v.getContext(), DeviceView.hello(), Toast.LENGTH_SHORT).show();
         // Data read
         // String uuidStr = intent.getStringExtra(BluetoothLeService.EXTRA_UUID);
         // byte[] value = intent.getByteArrayExtra(BluetoothLeService.EXTRA_DATA);
         //onCharacteristicsRead(SensorTagGatt.UUID_IRT_DATA.toString(), value, BluetoothGatt.GATT_SUCCESS);
-    }
-
-    private void onCharacteristicsRead(String uuidStr, byte[] value, int status) {
-        // Log.i(TAG, "onCharacteristicsRead: " + uuidStr);
-
-        if (uuidStr.equals(SensorTagGatt.UUID_DEVINFO_FWREV.toString())) {
-            mFwRev = new String(value, 0, 3);
-            Toast.makeText(this, "Firmware revision: " + mFwRev,Toast.LENGTH_LONG).show();
-        }
-
-        if (mIsSensorTag2)
-            return;
-
-        if (uuidStr.equals(SensorTagGatt.UUID_BAR_CALI.toString())) {
-            // Sanity check
-            if (value.length != 16)
-                return;
-
-            // Barometer calibration values are read.
-            List<Integer> cal = new ArrayList<Integer>();
-            for (int offset = 0; offset < 8; offset += 2) {
-                Integer lowerByte = (int) value[offset] & 0xFF;
-                Integer upperByte = (int) value[offset + 1] & 0xFF;
-                cal.add((upperByte << 8) + lowerByte);
-            }
-
-            for (int offset = 8; offset < 16; offset += 2) {
-                Integer lowerByte = (int) value[offset] & 0xFF;
-                Integer upperByte = (int) value[offset + 1];
-                cal.add((upperByte << 8) + lowerByte);
-            }
-
-            BarometerCalibrationCoefficients.INSTANCE.barometerCalibrationCoefficients = cal;
-        }
     }
 }

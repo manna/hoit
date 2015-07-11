@@ -70,6 +70,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -79,6 +80,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.att.iothub.Hub;
@@ -116,6 +118,7 @@ public class DeviceActivity extends ViewPagerActivity {
 	private boolean mHeightCalibrateRequest = true;
 	private boolean mIsSensorTag2;
 	private String mFwRev;
+	private static final int MUSIC_PICKER_CODE = 5;
 
 	public DeviceActivity() {
 		mResourceFragmentPager = R.layout.fragment_pager;
@@ -192,6 +195,13 @@ public class DeviceActivity extends ViewPagerActivity {
 			break;
 		case R.id.opt_about:
 			openAboutDialog();
+			break;
+		case R.id.new_input:
+			mDeviceView.newInput();
+			break;
+		case R.id.new_output:
+			Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI);
+			startActivityForResult(i, MUSIC_PICKER_CODE);
 			break;
 		default:
 			return super.onOptionsItemSelected(item);
@@ -512,6 +522,10 @@ public class DeviceActivity extends ViewPagerActivity {
 			// FW update cancelled so resume
 			enableDataCollection(true);
 			break;
+		case MUSIC_PICKER_CODE:
+			if (resultCode == RESULT_OK) {
+				mDeviceView.pickMusic(data);
+			}
 		default:
 			setError("Unknown request code");
 			break;
@@ -532,9 +546,6 @@ public class DeviceActivity extends ViewPagerActivity {
 					checkOad();
 					enableDataCollection(true);
 					getFirmwareRevison();
-					//Intent i = new Intent(context, Hub.class);
-					//i.putExtra("mIsSensorTag2", mIsSensorTag2);
-					//startActivity(i);
 				} else {
 					Toast.makeText(getApplication(), "Service discovery failed",
 					    Toast.LENGTH_LONG).show();
@@ -545,13 +556,10 @@ public class DeviceActivity extends ViewPagerActivity {
 				byte[] value = intent.getByteArrayExtra(BluetoothLeService.EXTRA_DATA);
 				String uuidStr = intent.getStringExtra(BluetoothLeService.EXTRA_UUID);
 				onCharacteristicChanged(uuidStr, value);
-				System.out.println("test123 " + uuidStr);
-				String t = "test123 ";
-				for (int i = 0; i<value.length; i++){
-					t += " " + value[i];
-				}
-				System.out.println(t);
-				onCharacteristicsRead(uuidStr, value, status);
+				
+				//Intent i = new Intent(context, Hub.class);
+				//i.putExtra("mIsSensorTag2", mIsSensorTag2);
+				//startActivity(i);
 			} else if (BluetoothLeService.ACTION_DATA_WRITE.equals(action)) {
 				// Data written
 				String uuidStr = intent.getStringExtra(BluetoothLeService.EXTRA_UUID);
