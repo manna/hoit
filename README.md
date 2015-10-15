@@ -1,2 +1,2 @@
 # Hub of Internet Things
-http://45.55.168.244/
+http://159.203.92.216/hoit/www/
