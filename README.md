@@ -1,2 +1,2 @@
 # Hub of Internet Things
-http://amin-manna.info/hoit/www/
+http://amin10.github.io/hoit
